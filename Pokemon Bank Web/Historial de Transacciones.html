@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Bank - Historial de Transacciones</title>
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <!-- Materialize CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- ValideJS CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/valide@1.0.0/dist/valide.min.css">
+    <style>
+        :root {
+            --pokemon-yellow: #ffcc00;
+            --pokemon-blue: #2A4B8D;
+            --pokemon-dark-blue: #1D2C5E;
+            --pokemon-light-blue: #3B5BB7;
+            --pokemon-red: #FF0000;
+            --pokemon-white: #FFFFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--pokemon-blue) 0%, var(--pokemon-dark-blue) 100%);
+            min-height: 100vh;
+            font-family: 'Roboto', sans-serif;
+            color: var(--pokemon-white);
+            position: relative;
+            overflow-x: hidden;
+            padding-bottom: 60px;
+        }
+        
+        .pokeball-bg {
+            position: absolute;
+            opacity: 0.03;
+            font-size: 40rem;
+            z-index: 0;
+            user-select: none;
+            bottom: -100px;
+            right: -100px;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--pokemon-blue) 0%, var(--pokemon-dark-blue) 100%);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            padding: 15px 30px;
+        }
+        
+        .navbar-brand {
+            font-family: 'Oxanium', cursive;
+            font-weight: 700;
+            color: var(--pokemon-yellow) !important;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand img {
+            margin-right: 10px;
+            height: 40px;
+        }
+        
+        .user-info {
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info i {
+            margin-right: 8px;
+            color: var(--pokemon-yellow);
+        }
+        
+        .main-container {
+            margin-top: 30px;
+            z-index: 10;
+            position: relative;
+        }
+        
+        .history-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .history-header {
+            background: linear-gradient(135deg, var(--pokemon-blue) 0%, var(--pokemon-light-blue) 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 5px solid var(--pokemon-yellow);
+        }
+        
+        .history-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-family: 'Oxanium', cursive;
+        }
+        
+        .history-body {
+            padding: 30px;
+        }
+        
+        .account-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .account-owner {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--pokemon-dark-blue);
+        }
+        
+        .account-number {
+            font-size: 1.2rem;
+            color: var(--pokemon-light-blue);
+            font-weight: 500;
+        }
+        
+        .filters-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filter-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--pokemon-dark-blue);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .filter-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: var(--pokemon-light-blue);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--pokemon-yellow);
+            color: var(--pokemon-dark-blue);
+        }
+        
+        .search-box {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .search-input {
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px 0 0 8px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .search-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            background: var(--pokemon-blue);
+            color: white;
+            cursor: pointer;
+        }
+        
+        .transactions-container {
+            max-height: 500px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+        
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+        
+        .transaction-detail {
+            flex: 1;
+        }
+        
+        .transaction-date {
+            font-weight: 600;
+            color: var(--pokemon-dark-blue);
+            margin-bottom: 5px;
+        }
+        
+        .transaction-description {
+            color: #555;
+        }
+        
+        .transaction-type {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+        
+        .type-deposit {
+            background: #e6f7ee;
+            color: #2ecc71;
+        }
+        
+        .type-withdrawal {
+            background: #fde9e9;
+            color: #e74c3c;
+        }
+        
+        .type-payment {
+            background: #fef5e7;
+            color: #f39c12;
+        }
+        
+        .transaction-amount {
+            font-weight: 600;
+            text-align: right;
+        }
+        
+        .amount-deposit {
+            color: #2ecc71;
+        }
+        
+        .amount-withdrawal {
+            color: #e74c3c;
+        }
+        
+        .amount-payment {
+            color: #f39c12;
+        }
+        
+        .no-transactions {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+            font-style: italic;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            background: white;
+            color: var(--pokemon-blue);
+            margin: 0 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .page-btn:hover, .page-btn.active {
+            background: var(--pokemon-blue);
+            color: white;
+            border-color: var(--pokemon-blue);
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .action-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-btn {
+            background: var(--pokemon-light-blue);
+            color: white;
+        }
+        
+        .back-btn:hover {
+            background: var(--pokemon-blue);
+        }
+        
+        .export-btn {
+            background: var(--pokemon-yellow);
+            color: var(--pokemon-dark-blue);
+        }
+        
+        .export-btn:hover {
+            background: #ff9900;
+        }
+        
+        .footer {
+            text-align: center;
+            color: var(--pokemon-yellow);
+            font-size: 0.9rem;
+            width: 100%;
+            padding: 20px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        
+        /* Modal de autenticación */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .auth-modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        
+        .auth-modal-header {
+            margin-bottom: 20px;
+        }
+        
+        .auth-modal-header h3 {
+            color: var(--pokemon-dark-blue);
+            font-family: 'Oxanium', cursive;
+        }
+        
+        .auth-modal-body {
+            margin-bottom: 20px;
+        }
+        
+        .pin-input-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .pin-input {
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: 24px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        
+        .pin-input:focus {
+            border-color: var(--pokemon-blue);
+            outline: none;
+            box-shadow: 0 0 5px rgba(42, 75, 141, 0.5);
+        }
+        
+        .auth-modal-footer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .auth-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .auth-submit {
+            background: var(--pokemon-blue);
+            color: white;
+        }
+        
+        .auth-cancel {
+            background: #ddd;
+            color: #555;
+        }
+        
+        .error-message {
+            color: var(--pokemon-red);
+            margin-top: 10px;
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .account-details {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .transaction-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .transaction-amount {
+                margin-top: 10px;
+                align-self: flex-end;
+            }
+            
+            .filter-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .pin-input-container {
+                gap: 5px;
+            }
+            
+            .pin-input {
+                width: 40px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pokeball-bg">◎</div>
+    
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <span class="c-logo__text c-logo__text--white">Pokémon Bank</span>
+            </a>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span>Ash Ketchum</span>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container main-container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <!-- History Card -->
+                <div class="history-card">
+                    <div class="history-header">
+                        <h2><i class="fas fa-history"></i> Historial de Transacciones</h2>
+                        <p>Revisa todas tus transacciones recientes</p>
+                    </div>
+                    
+                    <div class="history-body">
+                        <!-- Account Details -->
+                        <div class="account-details">
+                            <div class="account-owner">
+                                <i class="fas fa-user"></i> Ash ketchum
+                            </div>
+                            <div class="account-number">
+                                <i class="fas fa-credit-card"></i> No. 0987-6543-2100-1234
+                            </div>
+                        </div>
+                        
+                        <!-- Filters -->
+                        <div class="filters-container">
+                            <div class="filter-title">Filtrar transacciones</div>
+                            <div class="filter-options">
+                                <button class="filter-btn active" data-filter="all">Todas</button>
+                                <button class="filter-btn" data-filter="deposit">Depósitos</button>
+                                <button class="filter-btn" data-filter="withdrawal">Retiros</button>
+                                <button class="filter-btn" data-filter="payment">Pagos</button>
+                                <button class="filter-btn" data-filter="recent">Últimos 7 días</button>
+                            </div>
+                            <div class="search-box">
+                                <input type="text" class="search-input" id="searchInput" placeholder="Buscar transacción...">
+                                <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                        
+                        <!-- Transactions Container -->
+                        <div class="transactions-container" id="transactionsContainer">
+                            <!-- Las transacciones se cargarán dinámicamente con JavaScript -->
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            <div class="page-btn" id="prevPage"><i class="fas fa-chevron-left"></i></div>
+                            <div class="page-btn active">1</div>
+                            <div class="page-btn">2</div>
+                            <div class="page-btn">3</div>
+                            <div class="page-btn" id="nextPage"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <button class="action-btn back-btn" id="backBtn" onclick="window.location.href='Pantalla de acciones.html'">
+                                <i class="fas fa-arrow-left"></i> Volver a la cuenta
+                            </button>
+                            <button class="action-btn export-btn" id="exportBtn">
+                                <i class="fas fa-download"></i> Exportar historial
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de autenticación -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-modal-content">
+            <div class="auth-modal-header">
+                <h3><i class="fas fa-lock"></i> Autenticación Requerida</h3>
+                <p>Ingresa tu PIN de 4 dígitos para exportar el historial</p>
+            </div>
+            <div class="auth-modal-body">
+                <div class="pin-input-container">
+                    <input type="password" class="pin-input" id="pin1" maxlength="1" data-next="pin2">
+                    <input type="password" class="pin-input" id="pin2" maxlength="1" data-next="pin3" data-prev="pin1">
+                    <input type="password" class="pin-input" id="pin3" maxlength="1" data-next="pin4" data-prev="pin2">
+                    <input type="password" class="pin-input" id="pin4" maxlength="1" data-prev="pin3">
+                </div>
+                <div class="error-message" id="errorMessage">
+                    <i class="fas fa-exclamation-circle"></i> PIN incorrecto. Intenta nuevamente.
+                </div>
+            </div>
+            <div class="auth-modal-footer">
+                <button class="auth-btn auth-cancel" id="authCancel">Cancelar</button>
+                <button class="auth-btn auth-submit" id="authSubmit">Verificar</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2023 Pokémon Bank. Todos los derechos reservados.</p>
+        <p>Pokémon y todos los nombres relacionados son marcas registradas de Nintendo, Game Freak y Creatures Inc.</p>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- ValideJS -->
+    <script src="https://cdn.jsdelivr.net/npm/valide@1.0.0/dist/valide.min.js"></script>
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    
+    <script>
+        // Inicializar jsPDF
+        window.jsPDF = window.jspdf.jsPDF;
+        
+        // Datos de ejemplo para las transacciones
+        const transactions = [
+            { id: 1, date: "15/05/2023", description: "Depósito de efectivo", type: "deposit", amount: 500.00, balance: 5640.75 },
+            { id: 2, date: "14/05/2023", description: "Compra en Centro Pokémon", type: "withdrawal", amount: 120.50, balance: 5140.75 },
+            { id: 3, date: "12/05/2023", description: "Pago de servicios - Electricidad", type: "payment", amount: 85.30, balance: 5261.25 },
+            { id: 4, date: "10/05/2023", description: "Transferencia recibida - Misty", type: "deposit", amount: 300.00, balance: 5346.55 },
+            { id: 5, date: "08/05/2023", description: "Retiro en ATM - Ciudad Celeste", type: "withdrawal", amount: 200.00, balance: 5046.55 },
+            { id: 6, date: "05/05/2023", description: "Pago de servicios - Internet", type: "payment", amount: 45.75, balance: 5246.55 },
+            { id: 7, date: "03/05/2023", description: "Depósito de nómina - Gimnasio Pokémon", type: "deposit", amount: 1200.00, balance: 5292.30 },
+            { id: 8, date: "01/05/2023", description: "Compra en Tienda Pokémon", type: "withdrawal", amount: 75.25, balance: 4092.30 },
+            { id: 9, date: "28/04/2023", description: "Pago de servicios - Agua", type: "payment", amount: 60.40, balance: 4167.55 },
+            { id: 10, date: "25/04/2023", description: "Depósito de efectivo", type: "deposit", amount: 350.00, balance: 4227.95 },
+            { id: 11, date: "22/04/2023", description: "Compra en Centro Comercial", type: "withdrawal", amount: 185.75, balance: 3877.95 },
+            { id: 12, date: "20/04/2023", description: "Transferencia recibida - Brock", type: "deposit", amount: 150.00, balance: 4063.70 }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variables globales
+            let currentFilter = 'all';
+            let currentSearch = '';
+            let currentPage = 1;
+            const transactionsPerPage = 5;
+            
+            // Elementos del DOM
+            const transactionsContainer = document.getElementById('transactionsContainer');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+            const prevPageBtn = document.getElementById('prevPage');
+            const nextPageBtn = document.getElementById('nextPage');
+            const pageButtons = document.querySelectorAll('.page-btn:not(#prevPage):not(#nextPage)');
+            const authModal = document.getElementById('authModal');
+            const pinInputs = document.querySelectorAll('.pin-input');
+            const authSubmit = document.getElementById('authSubmit');
+            const authCancel = document.getElementById('authCancel');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Inicializar la visualización de transacciones
+            renderTransactions();
+            
+            // Configurar event listeners para los filtros
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remover la clase active de todos los botones
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Agregar la clase active al botón clickeado
+                    this.classList.add('active');
+                    
+                    // Actualizar el filtro actual
+                    currentFilter = this.getAttribute('data-filter');
+                    
+                    // Reiniciar a la primera página
+                    currentPage = 1;
+                    updatePagination();
+                    
+                    // Volver a renderizar las transacciones
+                    renderTransactions();
+                });
+            });
+            
+            // Configurar event listener para la búsqueda
+            searchBtn.addEventListener('click', performSearch);
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // Configurar event listeners para la paginación
+            prevPageBtn.addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updatePagination();
+                    renderTransactions();
+                }
+            });
+            
+            nextPageBtn.addEventListener('click', function() {
+                const totalPages = Math.ceil(filterTransactions().length / transactionsPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    updatePagination();
+                    renderTransactions();
+                }
+            });
+            
+            pageButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (!this.querySelector('i')) {
+                        currentPage = parseInt(this.textContent);
+                        updatePagination();
+                        renderTransactions();
+                    }
+                });
+            });
+            
+            // Back button functionality
+            document.getElementById('backBtn').addEventListener('click', function() {
+                alert('Volviendo a la pantalla de cuenta...');
+            });
+            
+            // Export button functionality - abre el modal de autenticación
+            document.getElementById('exportBtn').addEventListener('click', function() {
+                authModal.style.display = 'flex';
+                pinInputs[0].focus();
+            });
+            
+            // Configurar la navegación entre inputs de PIN
+            pinInputs.forEach((input, index) => {
+                input.addEventListener('input', function() {
+                    if (this.value.length === 1) {
+                        const nextInput = this.getAttribute('data-next');
+                        if (nextInput) {
+                            document.getElementById(nextInput).focus();
+                        }
+                    }
+                });
+                
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value === '') {
+                        const prevInput = this.getAttribute('data-prev');
+                        if (prevInput) {
+                            document.getElementById(prevInput).focus();
+                        }
+                    }
+                });
+            });
+            
+            // Botón de cancelar autenticación
+            authCancel.addEventListener('click', function() {
+                closeAuthModal();
+            });
+            
+            // Botón de verificar PIN
+            authSubmit.addEventListener('click', function() {
+                verifyPin();
+            });
+            
+            // Permitir verificar con Enter
+            pinInputs.forEach(input => {
+                input.addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter') {
+                        verifyPin();
+                    }
+                });
+            });
+            
+            // Función para cerrar el modal de autenticación
+            function closeAuthModal() {
+                authModal.style.display = 'none';
+                errorMessage.style.display = 'none';
+                // Limpiar los inputs
+                pinInputs.forEach(input => {
+                    input.value = '';
+                });
+            }
+            
+            // Función para verificar el PIN
+            function verifyPin() {
+                const pin = Array.from(pinInputs).map(input => input.value).join('');
+                
+                if (pin === '1996') {
+                    // PIN correcto
+                    closeAuthModal();
+                    exportToPDF();
+                } else {
+                    // PIN incorrecto
+                    errorMessage.style.display = 'block';
+                    // Limpiar los inputs
+                    pinInputs.forEach(input => {
+                        input.value = '';
+                    });
+                    pinInputs[0].focus();
+                }
+            }
+            
+            // Función para exportar a PDF
+            function exportToPDF() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Título
+                doc.setFontSize(20);
+                doc.setTextColor(42, 75, 141);
+                doc.text('Pokémon Bank - Historial de Transacciones', 105, 20, { align: 'center' });
+                
+                // Información de la cuenta
+                doc.setFontSize(12);
+                doc.setTextColor(0, 0, 0);
+                doc.text('Titular: Ash Ketchum', 20, 30);
+                doc.text('Cuenta: 0987-6543-2100-1234', 20, 37);
+                doc.text(`Fecha de exportación: ${new Date().toLocaleDateString()}`, 20, 44);
+                
+                // Preparar datos para la tabla
+                const filteredTransactions = filterTransactions();
+                const tableData = filteredTransactions.map(transaction => {
+                    let typeText = '';
+                    if (transaction.type === 'deposit') typeText = 'Depósito';
+                    if (transaction.type === 'withdrawal') typeText = 'Retiro';
+                    if (transaction.type === 'payment') typeText = 'Pago';
+                    
+                    let amountSign = '';
+                    if (transaction.type === 'deposit') amountSign = '+';
+                    else amountSign = '-';
+                    
+                    return [
+                        transaction.date,
+                        typeText,
+                        transaction.description,
+                        `${amountSign}$${transaction.amount.toFixed(2)}`
+                    ];
+                });
+                
+                // Crear la tabla
+                doc.autoTable({
+                    startY: 50,
+                    head: [['Fecha', 'Tipo', 'Descripción', 'Monto']],
+                    body: tableData,
+                    theme: 'grid',
+                    headStyles: {
+                        fillColor: [42, 75, 141],
+                        textColor: [255, 255, 255],
+                        fontStyle: 'bold'
+                    },
+                    alternateRowStyles: {
+                        fillColor: [240, 240, 240]
+                    }
+                });
+                
+                // Guardar el PDF
+                doc.save(`historial_pokemon_bank_${new Date().toISOString().slice(0, 10)}.pdf`);
+                
+                // Mostrar mensaje de éxito
+                alert('Historial exportado correctamente.');
+            }
+            
+            // Función para realizar la búsqueda
+            function performSearch() {
+                currentSearch = searchInput.value.toLowerCase().trim();
+                currentPage = 1;
+                updatePagination();
+                renderTransactions();
+            }
+            
+            // Función para filtrar transacciones según el filtro y búsqueda actual
+            function filterTransactions() {
+                return transactions.filter(transaction => {
+                    // Aplicar filtro por tipo
+                    let matchesFilter = false;
+                    if (currentFilter === 'all') {
+                        matchesFilter = true;
+                    } else if (currentFilter === 'deposit') {
+                        matchesFilter = transaction.type === 'deposit';
+                    } else if (currentFilter === 'withdrawal') {
+                        matchesFilter = transaction.type === 'withdrawal';
+                    } else if (currentFilter === 'payment') {
+                        matchesFilter = transaction.type === 'payment';
+                    } else if (currentFilter === 'recent') {
+                        // Filtro para últimos 7 días (simulado)
+                        const recentIds = [1, 2, 3, 4, 5]; // IDs de transacciones "recientes"
+                        matchesFilter = recentIds.includes(transaction.id);
+                    }
+                    
+                    // Aplicar filtro de búsqueda
+                    const matchesSearch = currentSearch === '' || 
+                                         transaction.description.toLowerCase().includes(currentSearch) ||
+                                         transaction.date.includes(currentSearch);
+                    
+                    return matchesFilter && matchesSearch;
+                });
+            }
+            
+            // Función para renderizar las transacciones
+            function renderTransactions() {
+                const filteredTransactions = filterTransactions();
+                const startIndex = (currentPage - 1) * transactionsPerPage;
+                const endIndex = startIndex + transactionsPerPage;
+                const paginatedTransactions = filteredTransactions.slice(startIndex, endIndex);
+                
+                // Limpiar el contenedor
+                transactionsContainer.innerHTML = '';
+                
+                // Mostrar mensaje si no hay transacciones
+                if (paginatedTransactions.length === 0) {
+                    transactionsContainer.innerHTML = `
+                        <div class="no-transactions">
+                            <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                            <h3>No se encontraron transacciones</h3>
+                            <p>Intenta con otros filtros o términos de búsqueda</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Renderizar cada transacción
+                paginatedTransactions.forEach(transaction => {
+                    const transactionElement = document.createElement('div');
+                    transactionElement.className = 'transaction-item';
+                    
+                    // Determinar la clase según el tipo
+                    let typeClass = '';
+                    let amountClass = '';
+                    let amountSign = '';
+                    
+                    if (transaction.type === 'deposit') {
+                        typeClass = 'type-deposit';
+                        amountClass = 'amount-deposit';
+                        amountSign = '+';
+                    } else if (transaction.type === 'withdrawal') {
+                        typeClass = 'type-withdrawal';
+                        amountClass = 'amount-withdrawal';
+                        amountSign = '-';
+                    } else if (transaction.type === 'payment') {
+                        typeClass = 'type-payment';
+                        amountClass = 'amount-payment';
+                        amountSign = '-';
+                    }
+                    
+                    // Determinar el texto del tipo
+                    let typeText = '';
+                    if (transaction.type === 'deposit') typeText = 'Depósito';
+                    if (transaction.type === 'withdrawal') typeText = 'Retiro';
+                    if (transaction.type === 'payment') typeText = 'Pago';
+                    
+                    transactionElement.innerHTML = `
+                        <div class="transaction-detail">
+                            <div class="transaction-date">${transaction.date}</div>
+                            <div class="transaction-description">
+                                <span class="transaction-type ${typeClass}">${typeText}</span>
+                                ${transaction.description}
+                            </div>
+                        </div>
+                        <div class="transaction-amount ${amountClass}">
+                            ${amountSign}$${transaction.amount.toFixed(2)}
+                        </div>
+                    `;
+                    
+                    transactionsContainer.appendChild(transactionElement);
+                });
+            }
+            
+            // Función para actualizar la paginación
+            function updatePagination() {
+                const filteredTransactions = filterTransactions();
+                const totalPages = Math.ceil(filteredTransactions.length / transactionsPerPage);
+                
+                // Actualizar botones de página
+                pageButtons.forEach((button, index) => {
+                    if (index < totalPages) {
+                        button.textContent = index + 1;
+                        button.style.display = 'flex';
+                        
+                        if (index + 1 === currentPage) {
+                            button.classList.add('active');
+                        } else {
+                            button.classList.remove('active');
+                        }
+                    } else {
+                        button.style.display = 'none';
+                    }
+                });
+                
+                // Ocultar/mostrar botones de anterior/siguiente
+                prevPageBtn.style.display = currentPage > 1 ? 'flex' : 'none';
+                nextPageBtn.style.display = currentPage < totalPages ? 'flex' : 'none';
+            }
+        });
+    </script>
+</body>
+</html>

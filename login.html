@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Bank - Acceso Seguro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
+    <link rel="stylesheet" href="css/StyleLogin.css" />
+</head>
+<body>
+    <div class="pokeball-bg">◎</div>
+    
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="logo-container">
+            <h1 class="logo">POKÉMON BANK</h1>
+            <p class="logo-subtitle">Tu banco seguro en el mundo Pokémon</p>
+            <div class="pikachu-animation" aria-label="Ícono de Pikachu">
+                <i class="fas fa-bolt"></i>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-lock" aria-hidden="true"></i> Acceso Seguro</h2>
+                <p>Ingresa tu PIN de 4 dígitos</p>
+            </div>
+            
+            <div class="card-body">
+                <div class="input-group">
+                    <label class="input-label">Número de entrenador: Ash ketchum</label>
+                </div>
+                
+                <div class="pin-container">
+                    <label for="pin1" class="input-label">PIN de Acceso</label>
+                    <div class="pin-inputs">
+                        <input type="password" id="pin1" class="pin-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="Primer dígito del PIN">
+                        <input type="password" id="pin2" class="pin-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="Segundo dígito del PIN">
+                        <input type="password" id="pin3" class="pin-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="Tercer dígito del PIN">
+                        <input type="password" id="pin4" class="pin-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="Cuarto dígito del PIN">
+                    </div>
+                    <button type="button" class="toggle-pin-visibility" id="togglePinVisibility" aria-label="Mostrar u ocultar PIN">
+                        <i class="fas fa-eye"></i> <span>Mostrar PIN</span>
+                    </button>
+                    <span id="pin-error" class="validation-error" style="display: none;"></span>
+                </div>
+                
+                <button class="login-btn" id="loginBtn" disabled>
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i> Acceder a mi cuenta
+                </button>
+                
+                <div class="loading" id="loading">
+                    <div class="pokeball-loading" aria-label="Cargando"></div>
+                </div>
+                
+                <div class="forgot-pin">
+                    <a href="#"><i class="fas fa-key" aria-hidden="true"></i> ¿Olvidaste tu PIN?</a>
+                </div>
+                
+                <div class="divider">
+                    <span>o</span>
+                </div>
+                
+                <div class="social-login">
+                    <a href="#" class="social-btn fb-btn" aria-label="Iniciar sesión con Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn google-btn" aria-label="Iniciar sesión con Google"><i class="fab fa-google"></i></a>
+                    <a href="#" class="social-btn twitter-btn" aria-label="Iniciar sesión con Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+                
+                <div class="signup-link">
+                    <p>¿Nuevo entrenador? <a href="#"><i class="fas fa-user-plus" aria-hidden="true"></i> Regístrate aquí</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2025 Pokémon Bank. Todos los derechos reservados.</p>
+        <p>Pokémon y todos los nombres relacionados son marcas registradas de Nintendo, Game Freak y Creatures Inc.</p>
+    </div>
+    
+    <div class="notification" id="notification" role="alert" aria-live="assertive">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>PIN incorrecto. Por favor, inténtalo de nuevo.</span>
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+</html>

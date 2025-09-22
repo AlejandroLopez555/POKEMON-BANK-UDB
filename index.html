@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/StyleIndex.css" />
+    <title>Pokémon Bank</title>
+     
+</head>
+<body>
+   <!-- HEADER -->
+<header class="header" id="header">
+    <div class="container">
+        <div class="header__wrapper">
+            <a class="c-link" href="index.html">
+                <div class="c-logo">
+                    <img src="img/logo.png" alt="Logo" class="c-logo__img" />
+                    <span class="c-logo__text c-logo__text--white">Pokémon Bank</span>
+                </div>
+            </a>
+            <nav class="c-nav">
+                <input id="dropdown" class="c-nav__toggle" type="checkbox" />
+                <label for="dropdown" class="c-nav__toggle-label"></label>
+                <div class="c-nav__content">
+                    <ul class="c-list c-list--flex">
+                        <li class="c-list__item">
+                            <a href="#funcionalidades" class="c-link c-link--list">Transacciones</a>
+                        </li>
+                        <li class="c-list__item">
+                            <a href="#servicios" class="c-link c-link--list">Servicios</a>
+                        </li>
+                    </ul>
+                    
+                    <div class="voltage-button">
+                        <button> ATM BANK </button> 
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 234.6 61.3" preserveAspectRatio="none" xml:space="preserve">
+                            <filter id="glow">
+                                <feGaussianBlur class="blur" result="coloredBlur" stdDeviation="2"></feGaussianBlur>
+                                <feTurbulence type="fractalNoise" baseFrequency="0.075" numOctaves="0.3" result="turbulence"></feTurbulence>
+                                <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="30" xChannelSelector="R" yChannelSelector="G" result="displace"></feDisplacementMap>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"></feMergeNode>
+                                    <feMergeNode in="coloredBlur"></feMergeNode>
+                                    <feMergeNode in="coloredBlur"></feMergeNode>
+                                    <feMergeNode in="displace"></feMergeNode>
+                                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                                </feMerge>
+                            </filter>
+                            <path class="voltage line-1" d="m216.3 51.2c-3.7 0-3.7-1.1-7.3-1.1-3.7 0-3.7 6.8-7.3 6.8-3.7 0-3.7-4.6-7.3-4.6-3.7 0-3.7 3.6-7.3 3.6-3.7 0-3.7-0.9-7.3-0.9-3.7 0-3.7-2.7-7.3-2.7-3.7 0-3.7 7.8-7.3 7.8-3.7 0-3.7-4.9-7.3-4.9-3.7 0-3.7-7.8-7.3-7.8-3.7 0-3.7-1.1-7.3-1.1-3.7 0-3.7 3.1-7.3 3.1-3.7 0-3.7 10.9-7.3 10.9-3.7 0-3.7-12.5-7.3-12.5-3.7 0-3.7 4.6-7.3 4.6-3.7 0-3.7 4.5-7.3 4.5-3.7 0-3.7 3.6-7.3 3.6-3.7 0-3.7-10-7.3-10-3.7 0-3.7-0.4-7.3-0.4-3.7 0-3.7 2.3-7.3 2.3-3.7 0-3.7 7.1-7.3 7.1-3.7 0-3.7-11.2-7.3-11.2-3.7 0-3.7 3.5-7.3 3.5-3.7 0-3.7 3.6-7.3 3.6-3.7 0-3.7-2.9-7.3-2.9-3.7 0-3.7 8.4-7.3 8.4-3.7 0-3.7-14.6-7.3-14.6-3.7 0-3.7 5.8-7.3 5.8-2.2 0-3.8-0.4-5.5-1.5-1.8-1.1-1.8-2.9-2.9-4.8-1-1.8 1.9-2.7 1.9-4.8 0-3.4-2.1-3.4-2.1-6.8s-9.9-3.4-9.9-6.8 8-3.4 8-6.8c0-2.2 2.1-2.4 3.1-4.2 1.1-1.8 0.2-3.9 2-5 1.8-1 3.1-7.9 5.3-7.9 3.7 0 3.7 0.9 7.3 0.9 3.7 0 3.7 6.7 7.3 6.7 3.7 0 3.7-1.8 7.3-1.8 3.7 0 3.7-0.6 7.3-0.6 3.7 0 3.7-7.8 7.3-7.8h7.3c3.7 0 3.7 4.7 7.3 4.7 3.7 0 3.7-1.1 7.3-1.1 3.7 0 3.7 11.6 7.3 11.6 3.7 0 3.7-2.6 7.3-2.6 3.7 0 3.7-12.9 7.3-12.9 3.7 0 3.7 10.9 7.3 10.9 3.7 0 3.7 1.3 7.3 1.3 3.7 0 3.7-8.7 7.3-8.7 3.7 0 3.7 11.5 7.3 11.5 3.7 0 3.7-1.4 7.3-1.4 3.7 0 3.7-2.6 7.3-2.6 3.7 0 3.7-5.8 7.3-5.8 3.7 0 3.7-1.3 7.3-1.3 3.7 0 3.7 6.6 7.3 6.6s3.7-9.3 7.3-9.3c3.7 0 3.7 0.2 7.3 0.2 3.7 0 3.7 8.5 7.3 8.5 3.7 0 3.7 0.2 7.3 0.2 3.7 0 3.7-1.5 7.3-1.5 3.7 0 3.7 1.6 7.3 1.6s3.7-5.1 7.3-5.1c2.2 0 0.6 9.6 2.4 10.7s4.1-2 5.1-0.1c1 1.8 10.3 2.2 10.3 4.3 0 3.4-10.7 3.4-10.7 6.8s1.2 3.4 1.2 6.8 1.9 3.4 1.9 6.8c0 2.2 7.2 7.7 6.2 9.5-1.1 1.8-12.3-6.5-14.1-5.5-1.7 0.9-0.1 6.2-2.2 6.2z" fill="transparent" stroke="#fff"></path>
+                            <path class="voltage line-2" d="m216.3 52.1c-3 0-3-0.5-6-0.5s-3 3-6 3-3-2-6-2-3 1.6-6 1.6-3-0.4-6-0.4-3-1.2-6-1.2-3 3.4-6 3.4-3-2.2-6-2.2-3-3.4-6-3.4-3-0.5-6-0.5-3 1.4-6 1.4-3 4.8-6 4.8-3-5.5-6-5.5-3 2-6 2-3 2-6 2-3 1.6-6 1.6-3-4.4-6-4.4-3-0.2-6-0.2-3 1-6 1-3 3.1-6 3.1-3-4.9-6-4.9-3 1.5-6 1.5-3 1.6-6 1.6-3-1.3-6-1.3-3 3.7-6 3.7-3-6.4-6-6.4-3 2.5-6 2.5h-6c-3 0-3-0.6-6-0.6s-3-1.4-6-1.4-3 0.9-6 0.9-3 4.3-6 4.3-3-3.5-6-3.5c-2.2 0-3.4-1.3-5.2-2.3-1.8-1.1-3.6-1.5-4.6-3.3s-4.4-3.5-4.4-5.7c0-3.4 0.4-3.4 0.4-6.8s2.9-3.4 2.9-6.8-0.8-3.4-0.8-6.8c0-2.2 0.3-4.2 1.3-5.9 1.1-1.8 0.8-6.2 2.6-7.3 1.8-1 5.5-2 7.7-2 3 0 3 2 6 2s3-0.5 6-0.5 3 5.1 6 5.1 3-1.1 6-1.1 3-5.6 6-5.6 3 4.8 6 4.8 3 0.6 6 0.6 3-3.8 6-3.8 3 5.1 6 5.1 3-0.6 6-0.6 3-1.2 6-1.2 3-2.6 6-2.6 3-0.6 6-0.6 3 2.9 6 2.9 3-4.1 6-4.1 3 0.1 6 0.1 3 3.7 6 3.7 3 0.1 6 0.1 3-0.6 6-0.6 3 0.7 6 0.7 3-2.2 6-2.2 3 4.4 6 4.4 3-1.7 6-1.7 3-4 6-4 3 4.7 6 4.7 3-0.5 6-0.5 3-0.8 6-0.8 3-3.8 6-3.8 3 6.3 6 6.3 3-4.8 6-4.8 3 1.9 6 1.9 3-1.9 6-1.9 3 1.3 6 1.3c2.2 0 5-0.5 6.7 0.5 1.8 1.1 2.4 4 3.5 5.8 1 1.8 0.3 3.7 0.3 5.9 0 3.4 3.4 3.4 3.4 6.8s-3.3 3.4-3.3 6.8 4 3.4 4 6.8c0 2.2-6 2.7-7 4.4-1.1 1.8 1.1 6.7-0.7 7.7-1.6 0.8-4.7-1.1-6.8-1.1z" fill="transparent" stroke="#fff"></path>
+                        </svg>
+                        <div class="dots">
+                            <div class="dot dot-1"></div>
+                            <div class="dot dot-2"></div>
+                            <div class="dot dot-3"></div>
+                            <div class="dot dot-4"></div>
+                            <div class="dot dot-5"></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <!-- HERO -->
+    <main>
+        <section class="c-hero">
+            <div class="container">
+                <div class="c-hero__content">
+                    <h1 class="heading heading--1 heading--light float-animation">
+                        ¡Entrena tus finanzas con Pokémon Bank!
+                    </h1>
+                    <h4 class="heading heading--4 heading--blue">
+                        Deposita, retira y consulta tu saldo como un verdadero Maestro
+                        Pokémon. Gestiona tus pokéahorros con la mejor tecnología.
+                    </h4>
+                    <div class="c-hero__button-group">
+                        
+                        
+                       
+                    </div>
+                </div>
+
+                <div class="c-hero__video-container">
+                    <video class="c-hero__video" src="img/pokecajero.mp4" autoplay loop muted playsinline></video>
+                </div>
+            </div>
+        </section>
+
+        <!-- FUNCIONALIDADES MEJORADA -->
+<section class="section funcionalidades" id="funcionalidades">
+    <div class="container">
+        <div class="section__title-wrapper">
+            <h2 class="heading heading--2">Opciones de tu Cajero Pokémon</h2>
+            <h4 class="heading heading--4">
+                Realiza todas tus transacciones de forma segura y divertida con
+                tu cuenta Pokémon Bank. ¡Como tener un Pikachu en tu bolsillo!
+            </h4>
+        </div>
+
+        <div class="funcionalidades-grid">
+            <article class="funcionalidad-card">
+                <div class="funcionalidad-icon">
+                    <img class="funcionalidad-img" src="img/deposito.png" alt="Depósito" />
+                    <div class="pokeball-detail"></div>
+                </div>
+                <div class="funcionalidad-content">
+                    <h3 class="funcionalidad-title">Depósito</h3>
+                    <p class="funcionalidad-text">
+                        Guarda tus pokémonedas de forma segura para usarlas cuando las necesites. 
+                        ¡No pierdas tu progreso! Tu dinero estará más seguro que un Snorlax durmiendo.
+                    </p>
+                    <ul class="funcionalidad-list">
+                        <li>Depósitos instantáneos</li>
+                        <li>Sin comisiones ocultas</li>
+                        <li>Disponible 24/7</li>
+                    </ul>
+                </div>
+                <div class="funcionalidad-badge">Disponible</div>
+            </article>
+
+            <article class="funcionalidad-card">
+                <div class="funcionalidad-icon">
+                    <img class="funcionalidad-img" src="img/retiro.png" alt="Retiro" />
+                    <div class="pokeball-detail"></div>
+                </div>
+                <div class="funcionalidad-content">
+                    <h3 class="funcionalidad-title">Retiro</h3>
+                    <p class="funcionalidad-text">
+                        Retira pokémonedas al instante en cualquier momento de tu aventura. 
+                        Tan rápido como un Electrode usando Autodestrucción.
+                    </p>
+                    <ul class="funcionalidad-list">
+                        <li>Retiros inmediatos</li>
+                        <li>Límites personalizables</li>
+                        <li>En cualquier cajero</li>
+                    </ul>
+                </div>
+                <div class="funcionalidad-badge">Popular</div>
+            </article>
+
+            <article class="funcionalidad-card">
+                <div class="funcionalidad-icon">
+                    <img class="funcionalidad-img" src="img/saldo.png" alt="Saldo" />
+                    <div class="pokeball-detail"></div>
+                </div>
+                <div class="funcionalidad-content">
+                    <h3 class="funcionalidad-title">Consulta de Saldo</h3>
+                    <p class="funcionalidad-text">
+                        Verifica cuántas pokémonedas tienes en tu cuenta con solo un clic. 
+                        Más fácil que capturar un Magikarp.
+                    </p>
+                    <ul class="funcionalidad-list">
+                        <li>Consulta en tiempo real</li>
+                        <li>Historial detallado</li>
+                        <li>Alertas personalizadas</li>
+                    </ul>
+                </div>
+                <div class="funcionalidad-badge">Nuevo</div>
+            </article>
+        </div>
+        
+        <div class="funcionalidades-cta">
+            <p>¿Necesitas ayuda? Nuestros entrenadores financieros están listos para asistirte</p>
+            <button class="c-button c-button--primary">Contactar Soporte</button>
+        </div>
+    </div>
+</section>
+
+        <!-- SERVICIOS -->
+        <section class="section features" id="servicios">
+            <div class="container">
+                <div class="section__title-wrapper">
+                    <h2 class="heading heading--2 heading--light">Servicios Adicionales</h2>
+                    <h4 class="heading heading--4 heading--blue">
+                        Más que un banco, tu compañero en todas las transacciones financieras.
+                    </h4>
+                </div>
+
+                <div class="box box--grid">
+                    <article class="c-feature">
+                        <div class="c-feature__img-holder">
+                            <img class="c-feature__img" src="img/servicios.png" alt="Servicios" />
+                        </div>
+                        <div class="c-feature__content">
+                            <h3 class="c-feature__title heading heading--3">
+                                Pago de Servicios
+                            </h3>
+                            <p class="c-paragraph c-feature__text">
+                                Cancela internet, teléfono, agua o energía con tus
+                                pokémonedas. ¡Fácil y rápido como una batalla Pokémon!
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="c-feature">
+                        <div class="c-feature__img-holder">
+                            <img
+                                class="c-feature__img"
+                                src="img/historial.png"
+                                alt="Historial"
+                            />
+                        </div>
+                        <div class="c-feature__content">
+                            <h3 class="c-feature__title heading heading--3">
+                                Historial de Transacciones
+                            </h3>
+                            <p class="c-paragraph c-feature__text">
+                                Consulta tu registro de movimientos como si fuera tu Pokédex
+                                de finanzas.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="c-feature">
+                        <div class="c-feature__img-holder">
+                            <img class="c-feature__img" src="img/graficas.png" alt="Gráficas" />
+                        </div>
+                        <div class="c-feature__content">
+                            <h3 class="c-feature__title heading heading--3">
+                                Gráficas de Uso
+                            </h3>
+                            <p class="c-paragraph c-feature__text">
+                                Visualiza estadísticas de tus transacciones en gráficos
+                                dinámicos.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="section banner">
+            <div class="container">
+                <div class="c-banner">
+                    <h2 class="heading heading--2 c-banner__title">
+                        ¡Comienza a usar Pokémon Bank hoy!
+                    </h2>
+                    <button class="c-button c-button--primary">Abrir cuenta</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="c-footer">
+                <div class="c-footer__box">
+                    <a class="c-link" href="#">
+                        <div class="c-logo">
+                            <img src="img/logo.png" alt="Logo" class="c-logo__img" />
+                            <span class="c-logo__text c-logo__text--white"
+                                >Pokémon Bank</span
+                            >
+                        </div>
+                    </a>
+                    <p class="c-paragraph c-footer__text">
+                        © 2025 Pokémon Bank, todos los derechos reservados
+                    </p>
+                </div>
+                <div class="c-footer__box">
+                    <div class="c-footer__icons">
+                        <a href="#"><img class="c-footer__icon" src="img/instagram.svg" alt="Instagram" /></a>
+                        <a href="#"><img class="c-footer__icon" src="img/twitter.svg" alt="Twitter" /></a>
+                        <a href="#"><img class="c-footer__icon" src="img/facebook.svg" alt="Facebook" /></a>
+                    </div>
+                    <ul class="c-list c-list--flex c-list--align-right">
+                        <li class="c-list__item c-list__item--small">
+                            <a href="#" class="c-link c-link--list c-link--list-right">Contacto</a>
+                        </li>
+                        <li class="c-list__item c-list__item--small">
+                            <a href="#" class="c-link c-link--list c-link--list-right">Sobre nosotros</a>
+                        </li>
+                        <li class="c-list__item c-list__item--small">
+                            <a href="#" class="c-link c-link--list c-link--list-right">FAQ</a>
+                        </li>
+                        <li class="c-list__item c-list__item--small">
+                            <a href="#" class="c-link c-link--list c-link--list-right">Soporte</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/index-script.js"></script>
+</body>
+</html>

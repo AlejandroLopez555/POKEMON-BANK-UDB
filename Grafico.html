@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Bank - Análisis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/Graficos.css">
+</head>
+<body>
+    <div class="pokeball-bg">
+        <i class="fas fa-baseball-ball"></i>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="navbar-brand">
+                <img src="img/logo.png" alt="Pokeball">
+                <span class="c-logo__text c-logo__text--white">Pokémon Bank</span>
+            </div>
+            <div class="user-info">
+                <i class="fas fa-user"></i>
+                <span>Ash ketchum</span>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container main-container">
+        <div class="history-card">
+            <div class="history-header">
+                <h2>Análisis de Transacciones</h2>
+                <p>Visualiza y analiza tu actividad financiera</p>
+            </div>
+            
+            <div class="history-body">
+                <!-- Tarjetas de resumen -->
+                <div class="summary-cards">
+                    <div class="summary-card income">
+                        <h3>Ingresos Totales</h3>
+                        <div class="value">$2,500.00</div>
+                    </div>
+                    <div class="summary-card expenses">
+                        <h3>Gastos Totales</h3>
+                        <div class="value">$712.20</div>
+                    </div>
+                    <div class="summary-card balance">
+                        <h3>Balance Neto</h3>
+                        <div class="value">$1,787.80</div>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Total Transacciones</h3>
+                        <div class="value">12</div>
+                    </div>
+                </div>
+                
+                <div class="filters-container">
+                    <div class="filter-title">Filtrar Transacciones</div>
+                    <div class="filter-options">
+                        <div class="filter-group">
+                            <label for="date-range">Rango de Fechas</label>
+                            <select id="date-range">
+                                <option value="7">Últimos 7 días</option>
+                                <option value="30" selected>Últimos 30 días</option>
+                                <option value="90">Últimos 3 meses</option>
+                                <option value="365">Último año</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="transaction-type">Tipo de Transacción</label>
+                            <select id="transaction-type">
+                                <option value="all">Todas las transacciones</option>
+                                <option value="deposit">Depósitos</option>
+                                <option value="withdrawal">Retiros</option>
+                                <option value="payment">Pagos</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="amount-range">Rango de Monto</label>
+                            <select id="amount-range">
+                                <option value="all">Todos los montos</option>
+                                <option value="0-100">$0 - $100</option>
+                                <option value="100-500">$100 - $500</option>
+                                <option value="500+">$500+</option>
+                            </select>
+                        </div>
+                        
+                        <button id="apply-filters">Aplicar Filtros</button>
+                    </div>
+                </div>
+                
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Distribución por Tipo de Transacción</h3>
+                            <div class="chart-actions">
+                                <button class="download-chart" data-chart="typeChart">Descargar</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="typeChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Evolución Mensual de Transacciones</h3>
+                            <div class="chart-actions">
+                                <button class="download-chart" data-chart="monthlyChart">Descargar</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="monthlyChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Distribución de Montos por Tipo</h3>
+                            <div class="chart-actions">
+                                <button class="download-chart" data-chart="amountChart">Descargar</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="amountChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Evolución del Balance</h3>
+                            <div class="chart-actions">
+                                <button class="download-chart" data-chart="balanceChart">Descargar</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="balanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="transactions-section">
+                    <div class="section-header">
+                        <h3 class="section-title">Últimas Transacciones</h3>
+                        <button id="export-data">Exportar Datos</button>
+                    </div>
+                    
+                    <div class="transactions-container">
+                        <table class="transactions-table" id="transactions-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Descripción</th>
+                                    <th>Tipo</th>
+                                    <th>Monto</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>15/05/2023</td>
+                                    <td>Depósito de efectivo</td>
+                                    <td><span class="transaction-type type-deposit">Depósito</span></td>
+                                    <td>$500.00</td>
+                                    <td>$5,640.75</td>
+                                </tr>
+                                <tr>
+                                    <td>14/05/2023</td>
+                                    <td>Compra en Centro Pokémon</td>
+                                    <td><span class="transaction-type type-withdrawal">Retiro</span></td>
+                                    <td>-$120.50</td>
+                                    <td>$5,140.75</td>
+                                </tr>
+                                <tr>
+                                    <td>12/05/2023</td>
+                                    <td>Pago de servicios - Electricidad</td>
+                                    <td><span class="transaction-type type-payment">Pago</span></td>
+                                    <td>-$85.30</td>
+                                    <td>$5,261.25</td>
+                                </tr>
+                                <tr>
+                                    <td>10/05/2023</td>
+                                    <td>Transferencia recibida - Misty</td>
+                                    <td><span class="transaction-type type-deposit">Depósito</span></td>
+                                    <td>$300.00</td>
+                                    <td>$5,346.55</td>
+                                </tr>
+                                <tr>
+                                    <td>08/05/2023</td>
+                                    <td>Retiro en ATM - Ciudad Celeste</td>
+                                    <td><span class="transaction-type type-withdrawal">Retiro</span></td>
+                                    <td>-$200.00</td>
+                                    <td>$5,046.55</td>
+                                </tr>
+                                <tr>
+                                    <td>05/05/2023</td>
+                                    <td>Pago de servicios - Internet</td>
+                                    <td><span class="transaction-type type-payment">Pago</span></td>
+                                    <td>-$45.75</td>
+                                    <td>$5,246.55</td>
+                                </tr>
+                                <tr>
+                                    <td>03/05/2023</td>
+                                    <td>Depósito de nómina - Gimnasio Pokémon</td>
+                                    <td><span class="transaction-type type-deposit">Depósito</span></td>
+                                    <td>$1,200.00</td>
+                                    <td>$5,292.30</td>
+                                </tr>
+                                <tr>
+                                    <td>01/05/2023</td>
+                                    <td>Compra en Tienda Pokémon</td>
+                                    <td><span class="transaction-type type-withdrawal">Retiro</span></td>
+                                    <td>-$75.25</td>
+                                    <td>$4,092.30</td>
+                                </tr>
+                                <tr>
+                                    <td>28/04/2023</td>
+                                    <td>Pago de servicios - Agua</td>
+                                    <td><span class="transaction-type type-payment">Pago</span></td>
+                                    <td>-$60.40</td>
+                                    <td>$4,167.55</td>
+                                </tr>
+                                <tr>
+                                    <td>25/04/2023</td>
+                                    <td>Depósito de efectivo</td>
+                                    <td><span class="transaction-type type-deposit">Depósito</span></td>
+                                    <td>$350.00</td>
+                                    <td>$4,227.95</td>
+                                </tr>
+                                <tr>
+                                    <td>22/04/2023</td>
+                                    <td>Compra en Centro Comercial</td>
+                                    <td><span class="transaction-type type-withdrawal">Retiro</span></td>
+                                    <td>-$185.75</td>
+                                    <td>$3,877.95</td>
+                                </tr>
+                                <tr>
+                                    <td>20/04/2023</td>
+                                    <td>Transferencia recibida - Brock</td>
+                                    <td><span class="transaction-type type-deposit">Depósito</span></td>
+                                    <td>$150.00</td>
+                                    <td>$4,063.70</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn back-btn" onclick="window.location.href='Pantalla de acciones.html'">
+                        <i class="fas fa-arrow-left"></i> Volver al Inicio
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+            <p>Pokémon Bank © 2023 - ¡Atrapa todos tus datos financieros!</p>
+            <div class="footer-links">
+                <a href="#">Términos de Servicio</a>
+                <a href="#">Política de Privacidad</a>
+                <a href="#">Soporte</a>
+                <a href="#">Contacto</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/ScriptGrafico.js"></script>
+</body>
+</html>

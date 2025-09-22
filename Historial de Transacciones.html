@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Bank - Historial de Transacciones</title>
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <!-- Materialize CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- ValideJS CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/valide@1.0.0/dist/valide.min.css">
+    <link rel="stylesheet" href="Historial.css">
+</head>
+<body>
+    <div class="pokeball-bg">◎</div>
+    
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <span class="c-logo__text c-logo__text--white">Pokémon Bank</span>
+            </a>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span>Ash Ketchum</span>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container main-container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <!-- History Card -->
+                <div class="history-card">
+                    <div class="history-header">
+                        <h2><i class="fas fa-history"></i> Historial de Transacciones</h2>
+                        <p>Revisa todas tus transacciones recientes</p>
+                    </div>
+                    
+                    <div class="history-body">
+                        <!-- Account Details -->
+                        <div class="account-details">
+                            <div class="account-owner">
+                                <i class="fas fa-user"></i> Ash ketchum
+                            </div>
+                            <div class="account-number">
+                                <i class="fas fa-credit-card"></i> No. 0987-6543-2100-1234
+                            </div>
+                        </div>
+                        
+                        <!-- Filters -->
+                        <div class="filters-container">
+                            <div class="filter-title">Filtrar transacciones</div>
+                            <div class="filter-options">
+                                <button class="filter-btn active" data-filter="all">Todas</button>
+                                <button class="filter-btn" data-filter="deposit">Depósitos</button>
+                                <button class="filter-btn" data-filter="withdrawal">Retiros</button>
+                                <button class="filter-btn" data-filter="payment">Pagos</button>
+                                <button class="filter-btn" data-filter="recent">Últimos 7 días</button>
+                            </div>
+                            <div class="search-box">
+                                <input type="text" class="search-input" id="searchInput" placeholder="Buscar transacción...">
+                                <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                        
+                        <!-- Transactions Container -->
+                        <div class="transactions-container" id="transactionsContainer">
+                            <!-- Las transacciones se cargarán dinámicamente con JavaScript -->
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            <div class="page-btn" id="prevPage"><i class="fas fa-chevron-left"></i></div>
+                            <div class="page-btn active">1</div>
+                            <div class="page-btn">2</div>
+                            <div class="page-btn">3</div>
+                            <div class="page-btn" id="nextPage"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <button class="action-btn back-btn" id="backBtn" onclick="window.location.href='Pantalla de acciones.html'">
+                                <i class="fas fa-arrow-left"></i> Volver a la cuenta
+                            </button>
+                            <button class="action-btn export-btn" id="exportBtn">
+                                <i class="fas fa-download"></i> Exportar historial
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de autenticación -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-modal-content">
+            <div class="auth-modal-header">
+                <h3><i class="fas fa-lock"></i> Autenticación Requerida</h3>
+                <p>Ingresa tu PIN de 4 dígitos para exportar el historial</p>
+            </div>
+            <div class="auth-modal-body">
+                <div class="pin-input-container">
+                    <input type="password" class="pin-input" id="pin1" maxlength="1" data-next="pin2">
+                    <input type="password" class="pin-input" id="pin2" maxlength="1" data-next="pin3" data-prev="pin1">
+                    <input type="password" class="pin-input" id="pin3" maxlength="1" data-next="pin4" data-prev="pin2">
+                    <input type="password" class="pin-input" id="pin4" maxlength="1" data-prev="pin3">
+                </div>
+                <div class="error-message" id="errorMessage">
+                    <i class="fas fa-exclamation-circle"></i> PIN incorrecto. Intenta nuevamente.
+                </div>
+            </div>
+            <div class="auth-modal-footer">
+                <button class="auth-btn auth-cancel" id="authCancel">Cancelar</button>
+                <button class="auth-btn auth-submit" id="authSubmit">Verificar</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2023 Pokémon Bank. Todos los derechos reservados.</p>
+        <p>Pokémon y todos los nombres relacionados son marcas registradas de Nintendo, Game Freak y Creatures Inc.</p>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- ValideJS -->
+    <script src="https://cdn.jsdelivr.net/npm/valide@1.0.0/dist/valide.min.js"></script>
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    
+    <script src="Historial.js"></script>
+</body>
+</html>

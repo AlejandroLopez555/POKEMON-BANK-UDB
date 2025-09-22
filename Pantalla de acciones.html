@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Bank - Cuenta</title>
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <!-- Materialize CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="css/StylePantallaAcciones.css">
+</head>
+<body>
+    <div class="pokeball-bg">◎</div>
+    
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+               <div class="c-logo">                  
+                    <span class="c-logo__text c-logo__text--white">Pokémon Bank</span>
+                </div>
+            </a>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span>Ash Ketchum</span>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container main-container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <!-- Account Card -->
+                <div class="account-card">
+                    <div class="account-header">
+                        <h2><i class="fas fa-piggy-bank"></i> Mi Cuenta Pokémon</h2>
+                        <p>Gestiona tus fondos como un entrenador maestro</p>
+                    </div>
+                    
+                    <div class="account-body">
+                        <!-- Account Details -->
+                        <div class="account-details">
+                            <div class="account-owner">
+                                <i class="fas fa-user"></i> Ash ketchum
+                            </div>
+                            <div class="account-number">
+                                <i class="fas fa-credit-card"></i> No. 0987-6543-2100-1234
+                            </div>
+                        </div>
+                        
+                        <!-- Balance -->
+                        <div class="balance-container">
+                            <div class="balance-label">Saldo Disponible</div>
+                            <div class="balance-amount">$5,640.75</div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <h3 class="transactions-title">Acciones Rápidas</h3>
+                        <div class="action-buttons">
+                            <div class="action-btn deposit" data-toggle="modal" data-target="#depositModal">
+                                <div class="action-icon">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                                <div class="action-title">Depositar</div>
+                                <div class="action-desc">Agregar fondos a tu cuenta</div>
+                            </div>
+                            
+                            <div class="action-btn withdraw" data-toggle="modal" data-target="#withdrawModal">
+                                <div class="action-icon">
+                                    <i class="fas fa-hand-holding-usd"></i>
+                                </div>
+                                <div class="action-title">Retirar</div>
+                                <div class="action-desc">Obtener efectivo</div>
+                            </div>
+                            
+                            <div class="action-btn balance" data-toggle="modal" data-target="#balanceModal">
+                                <div class="action-icon">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="action-title">Consultar Saldo</div>
+                                <div class="action-desc">Ver saldo actual</div>
+                            </div>
+                            
+                            <div class="action-btn payment" data-toggle="modal" data-target="#paymentModal">
+                                <div class="action-icon">
+                                    <i class="fas fa-money-check-alt"></i>
+                                </div>
+                                <div class="action-title">Pagar Servicios</div>
+                                <div class="action-desc">Pagar facturas</div>
+                            </div>
+                            
+                            <!-- Nuevos botones añadidos -->
+                            <a href="Grafico.html" class="action-btn charts">
+                                <div class="action-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="action-title">Ver Gráficos</div>
+                                <div class="action-desc">Analizar tus finanzas</div>
+                            </a>
+                            
+                            <a href="Historial de Transacciones.html" class="action-btn history">
+                                <div class="action-icon">
+                                    <i class="fas fa-history"></i>
+                                </div>
+                                <div class="action-title">Historial Completo</div>
+                                <div class="action-desc">Ver todas las transacciones</div>
+                            </a>
+                        </div>
+                        
+                        <!-- Transaction History -->
+                        <h3 class="transactions-title">Historial de Transacciones</h3>
+                        <div class="transaction-history">
+                            <div class="transaction-item">
+                                <div class="transaction-detail">
+                                    <div class="transaction-name">Depósito de efectivo</div>
+                                    <div class="transaction-date">15/05/2023 - 10:23 AM</div>
+                                </div>
+                                <div class="transaction-amount transaction-deposit">+$500.00</div>
+                            </div>
+                            
+                            <div class="transaction-item">
+                                <div class="transaction-detail">
+                                    <div class="transaction-name">Compra en Centro Pokémon</div>
+                                    <div class="transaction-date">14/05/2023 - 03:45 PM</div>
+                                </div>
+                                <div class="transaction-amount transaction-withdraw">-$120.50</div>
+                            </div>
+                            
+                            <div class="transaction-item">
+                                <div class="transaction-detail">
+                                    <div class="transaction-name">Pago de servicios</div>
+                                    <div class="transaction-date">12/05/2023 - 09:15 AM</div>
+                                </div>
+                                <div class="transaction-amount transaction-withdraw">-$85.30</div>
+                            </div>
+                            
+                            <div class="transaction-item">
+                                <div class="transaction-detail">
+                                    <div class="transaction-name">Transferencia recibida</div>
+                                    <div class="transaction-date">10/05/2023 - 02:30 PM</div>
+                                </div>
+                                <div class="transaction-amount transaction-deposit">+$300.00</div>
+                            </div>
+                            
+                            <div class="transaction-item">
+                                <div class="transaction-detail">
+                                    <div class="transaction-name">Retiro en ATM</div>
+                                    <div class="transaction-date">08/05/2023 - 05:20 PM</div>
+                                </div>
+                                <div class="transaction-amount transaction-withdraw">-$200.00</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Logout Button -->
+                        <button class="logout-btn" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Deposit Modal - MEJORADO -->
+    <div class="modal fade" id="depositModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-dollar-sign"></i> Depositar Fondos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-pokemon-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <form id="depositForm">
+                        <div class="form-group">
+                            <label for="depositAmount">Cantidad a depositar</label>
+                            <div class="input-with-icon">
+                                
+                                <input type="number" class="form-control" id="depositAmount" placeholder="Ingresa la cantidad" required min="1" step="0.01">
+                            </div>
+                            <small class="form-text text-muted">Mínimo de depósito: $5.00</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="depositMethod">Método de depósito</label>
+                            <select class="form-control" id="depositMethod" required>
+                                <option value="">Selecciona un método</option>
+                                <option>Efectivo</option>
+                                <option>Transferencia bancaria</option>
+                                <option>Cheque</option>
+                                <option>Tarjeta de débito</option>
+                                <option>Tarjeta de crédito</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="cardDetails" style="display: none;">
+                            <label for="cardNumber">Número de tarjeta</label>
+                            <div class="input-with-icon">
+                                
+                                <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456">
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-check-circle"></i> Realizar Depósito
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Withdraw Modal -->
+    <div class="modal fade" id="withdrawModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-hand-holding-usd"></i> Retirar Efectivo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-pokemon-icon">
+                        <i class="fas fa-money-bill-alt"></i>
+                    </div>
+                    <form id="withdrawForm">
+                        <div class="form-group">
+                            <label for="withdrawAmount">Cantidad a retirar</label>
+                            <div class="input-with-icon">
+                                
+                                <input type="number" class="form-control" id="withdrawAmount" placeholder="Ingresa la cantidad" required min="1" max="5640.75" step="0.01">
+                            </div>
+                            <small class="form-text text-muted">Saldo disponible: $5,640.75</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="withdrawMethod">Método de retiro</label>
+                            <select class="form-control" id="withdrawMethod" required>
+                                <option value="">Selecciona un método</option>
+                                <option>Ventanilla</option>
+                                <option>Cajero automático</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-check-circle"></i> Realizar Retiro
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Balance Modal -->
+    <div class="modal fade" id="balanceModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-wallet"></i> Consultar Saldo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-pokemon-icon">
+                        <i class="fas fa-search-dollar"></i>
+                    </div>
+                    <div class="text-center">
+                        <div style="font-size: 1.2rem; color: var(--pokemon-dark-blue); margin-bottom: 20px;">
+                            Saldo actual en tu cuenta
+                        </div>
+                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--pokemon-blue); margin-bottom: 30px;">
+                            $5,640.75
+                        </div>
+                        <div style="color: #666; margin-bottom: 20px;">
+                            <i class="fas fa-info-circle"></i> Este saldo refleja todas tus transacciones hasta la fecha.
+                        </div>
+                        <button type="button" class="submit-btn" data-dismiss="modal">
+                            <i class="fas fa-times-circle"></i> Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Payment Modal -->
+    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-money-check-alt"></i> Pagar Servicios</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden=" true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-pokemon-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <form id="paymentForm">
+                        <div class="form-group">
+                            <label for="serviceType">Tipo de servicio</label>
+                            <select class="form-control" id="serviceType" required>
+                                <option value="">Selecciona un servicio</option>
+                                <option>Luz eléctrica</option>
+                                <option>Agua potable</option>
+                                <option>Teléfono</option>
+                                <option>Internet</option>
+                                <option>Impuestos</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="serviceAccount">Número de cuenta de servicio</label>
+                            <div class="input-with-icon">
+                                
+                                <input type="text" class="form-control" id="serviceAccount" placeholder="Ingresa el número de cuenta" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentAmount">Monto a pagar</label>
+                            <div class="input-with-icon">
+                                
+                                <input type="number" class="form-control" id="paymentAmount" placeholder="Ingresa el monto" required min="1" step="0.01">
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-check-circle"></i> Realizar Pago
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2023 Pokémon Bank. Todos los derechos reservados.</p>
+        <p>Pokémon y todos los nombres relacionados son marcas registradas de Nintendo, Game Freak y Creatures Inc.</p>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script src="js/ScriptPantallaAcciones.js"></script>
+</body>
+</html>

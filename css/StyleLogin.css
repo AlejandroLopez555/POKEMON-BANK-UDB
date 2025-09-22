@@ -1,0 +1,494 @@
+* {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: 
+            linear-gradient(135deg, #3b5ab74f 0%, #ffcc001c 100%),
+            url('https://nintenduo.com/wp-content/uploads/2024/10/Tarjetas-Dinero-Pokemon-GO.webp') center center/cover no-repeat;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(30, 30, 30, 0.45);
+            z-index: -2;
+            pointer-events: none;
+        }
+        
+        .pokeball-bg {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 800px;
+            opacity: 0.05;
+            z-index: -1;
+            color: white;
+            pointer-events: none;
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+            }
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #FFCC00;
+            text-shadow: 3px 3px 0 #3B5BB7, 6px 6px 0 #2a4689;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+        
+        .logo-subtitle {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .pikachu-animation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+            background: #FFCC00;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            color: #333;
+            font-size: 24px;
+            animation: bounce 1.5s infinite alternate;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes bounce {
+            from {
+                transform: translateY(0px);
+            }
+            to {
+                transform: translateY(-15px);
+            }
+        }
+        
+        /* Estilos de la tarjeta reorganizados */
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .card-header {
+            background: #3B5BB7;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .card-header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+        
+        .card-body {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 0;
+            text-align: center;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #3B5BB7;
+            font-size: 1rem;
+        }
+        
+        .pin-container {
+            position: relative;
+            margin-bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .pin-inputs {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        
+        .pin-input {
+            width: 55px;
+            height: 65px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .pin-input:focus {
+            border-color: #3B5BB7;
+            box-shadow: 0 0 0 3px rgba(59, 91, 183, 0.2);
+            outline: none;
+        }
+        
+        .pin-input.invalid {
+            border-color: #FF0000;
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .toggle-pin-visibility {
+            background: none;
+            border: none;
+            color: #3B5BB7;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 5px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        .toggle-pin-visibility:hover {
+            background: #f0f0f0;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: #FFCC00;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover:not(:disabled) {
+            background: #e6b800;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-btn:disabled {
+            cursor: not-allowed;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .pokeball-loading {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(to bottom, #FF0000 0%, #FF0000 45%, #000 45%, #000 50%, #fff 50%, #fff 100%);
+            border-radius: 50%;
+            border: 3px solid #000;
+            margin: 0 auto;
+            animation: spin 1s infinite linear;
+            position: relative;
+        }
+        
+        .pokeball-loading:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 15px;
+            height: 15px;
+            background: #fff;
+            border: 3px solid #000;
+            border-radius: 50%;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .forgot-pin {
+            text-align: center;
+            margin: 0;
+        }
+        
+        .forgot-pin a {
+            color: #3B5BB7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .forgot-pin a:hover {
+            text-decoration: underline;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 5px 0;
+            color: #777;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .divider span {
+            padding: 0 15px;
+            font-size: 0.9rem;
+        }
+        
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 0;
+        }
+        
+        .social-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .fb-btn {
+            background: #3b5998;
+        }
+        
+        .google-btn {
+            background: #db4437;
+        }
+        
+        .twitter-btn {
+            background: #1da1f2;
+        }
+        
+        .signup-link {
+            text-align: center;
+            margin: 0;
+        }
+        
+        .signup-link p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+        
+        .signup-link a {
+            color: #3B5BB7;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            max-width: 600px;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FF0000;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            transition: bottom 0.5s;
+            z-index: 1000;
+        }
+        
+        .notification.success {
+            background: #4CAF50;
+        }
+        
+        .notification.show {
+            bottom: 20px;
+        }
+        
+        .notification i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .validation-error {
+            color: #FF0000;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: block;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.2rem;
+            }
+            
+            .card {
+                max-width: 90%;
+            }
+            
+            .card-body {
+                padding: 20px;
+            }
+            
+            .pin-input {
+                width: 50px;
+                height: 60px;
+                font-size: 22px;
+            }
+            
+            .card-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .card-header p {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .pin-input {
+                width: 45px;
+                height: 55px;
+                font-size: 20px;
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            .social-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }

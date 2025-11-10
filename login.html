@@ -6,6 +6,8 @@
     <title>Pokémon Bank - Acceso Seguro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="css/StyleLogin.css" />
 </head>
 <body>
@@ -25,16 +27,19 @@
         <div class="card">
             <div class="card-header">
                 <h2><i class="fas fa-lock" aria-hidden="true"></i> Acceso Seguro</h2>
-                <p>Ingresa tu PIN de 4 dígitos</p>
+                <p>Ingresa tu nombre de entrenador y PIN</p>
             </div>
             
             <div class="card-body">
+                <!-- CAMPO DE USUARIO AGREGADO -->
                 <div class="input-group">
-                    <label class="input-label">Número de entrenador: Ash ketchum</label>
+                    <label for="username" class="input-label">Nombre de Entrenador</label>
+                    <input type="text" id="username" class="text-input" placeholder="Ingrese su nombre" autocomplete="username" aria-label="Nombre de entrenador">
+                    <span id="username-error" class="validation-error" style="display: none;"></span>
                 </div>
                 
                 <div class="pin-container">
-                    <label for="pin1" class="input-label">PIN de Acceso</label>
+                    <label for="pin1" class="input-label">PIN de Acceso (4 dígitos)</label>
                     <div class="pin-inputs">
                         <input type="password" id="pin1" class="pin-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="Primer dígito del PIN">
                         <input type="password" id="pin2" class="pin-input" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="off" aria-label="Segundo dígito del PIN">
@@ -83,7 +88,7 @@
     
     <div class="notification" id="notification" role="alert" aria-live="assertive">
         <i class="fas fa-exclamation-circle"></i>
-        <span>PIN incorrecto. Por favor, inténtalo de nuevo.</span>
+        <span>Credenciales incorrectas. Por favor, inténtalo de nuevo.</span>
     </div>
 
     <script src="js/login-script.js"></script>

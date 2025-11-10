@@ -16,6 +16,8 @@
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="css/StylePantallaAcciones.css">
+    <!-- Validate.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
 </head>
 <body>
     <div class="pokeball-bg">◎</div>
@@ -59,7 +61,7 @@
                         <!-- Balance -->
                         <div class="balance-container">
                             <div class="balance-label">Saldo Disponible</div>
-                            <div class="balance-amount">$5,640.75</div>
+                            <div class="balance-amount">$</div>
                         </div>
                         
                         <!-- Action Buttons -->
@@ -240,7 +242,7 @@
                                 
                                 <input type="number" class="form-control" id="withdrawAmount" placeholder="Ingresa la cantidad" required min="1" max="5640.75" step="0.01">
                             </div>
-                            <small class="form-text text-muted">Saldo disponible: $5,640.75</small>
+                            <small class="form-text text-muted">Saldo disponible: $</small>
                         </div>
                         <div class="form-group">
                             <label for="withdrawMethod">Método de retiro</label>
@@ -268,24 +270,27 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
+                
                 </div>
                 <div class="modal-body">
                     <div class="modal-pokemon-icon">
                         <i class="fas fa-search-dollar"></i>
                     </div>
-                    <div class="text-center">
+                    <div class="text-center" style="color: #000;">
                         <div style="font-size: 1.2rem; color: var(--pokemon-dark-blue); margin-bottom: 20px;">
                             Saldo actual en tu cuenta
                         </div>
-                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--pokemon-blue); margin-bottom: 30px;">
-                            $5,640.75
                         </div>
-                        <div style="color: #666; margin-bottom: 20px;">
+                
+                        <div style="color: #070000; margin-bottom: 20px;">
                             <i class="fas fa-info-circle"></i> Este saldo refleja todas tus transacciones hasta la fecha.
                         </div>
                         <button type="button" class="submit-btn" data-dismiss="modal">
                             <i class="fas fa-times-circle"></i> Cerrar
                         </button>
+                </div>
+                </div>
+                </div>
                     </div>
                 </div>
             </div>

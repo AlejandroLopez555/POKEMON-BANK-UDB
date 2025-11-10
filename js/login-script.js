@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const usernameInput = document.getElementById('username');
     const pinInputs = document.querySelectorAll('.pin-input');
     const loginBtn = document.getElementById('loginBtn');
     const notification = document.getElementById('notification');
@@ -6,11 +7,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const particlesContainer = document.getElementById('particles');
     const togglePinBtn = document.getElementById('togglePinVisibility');
     const pinError = document.getElementById('pin-error');
+    const usernameError = document.getElementById('username-error');
     
     let isPinVisible = false;
     
+    // DATOS DEL USUARIO VÁLIDO
+    const validUser = {
+        name: "Ash Ketchum",
+        pin: "1234",
+        account: "0987654321",
+        balance: 500.00
+    };
+    
     // CONFIGURACIÓN DE VALIDATE.JS
     const constraints = {
+        username: {
+            presence: {
+                allowEmpty: false,
+                message: "es requerido"
+            },
+            format: {
+                pattern: /^Ash Ketchum$/i,
+                message: "no válido"
+            }
+        },
         pin: {
             presence: {
                 allowEmpty: false,
@@ -27,13 +47,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
+    // INICIALIZAR DATOS EN LOCALSTORAGE
+    function initializeUserData() {
+        if (!localStorage.getItem('userData')) {
+            const userData = {
+                name: validUser.name,
+                account: validUser.account,
+                balance: validUser.balance,
+                transactions: []
+            };
+            localStorage.setItem('userData', JSON.stringify(userData));
+        }
+    }
+    
     // Función de validación con Validate.js
-    function validatePIN(pin) {
-        const validationResult = validate({ pin: pin }, constraints);
+    function validateCredentials(username, pin) {
+        const validationResult = validate({ username: username, pin: pin }, constraints);
         
         if (validationResult) {
-            // Convertir errores de Validate.js a array simple
             const errors = [];
+            if (validationResult.username) {
+                validationResult.username.forEach(error => {
+                    errors.push("Usuario " + error);
+                });
+            }
             if (validationResult.pin) {
                 validationResult.pin.forEach(error => {
                     errors.push("PIN " + error);
@@ -41,17 +78,73 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return errors;
         }
+        return [];
+    }
+    
+    // Validar campo de usuario individualmente
+    function validateUsernameField() {
+        const username = usernameInput.value.trim();
         
-        return []; // No hay errores
+        if (username.length > 0) {
+            const validation = validate({ username: username }, { username: constraints.username });
+            
+            if (validation && validation.username) {
+                usernameError.textContent = "" + validation.username[0];
+                usernameError.style.display = 'block';
+                return false;
+            } else {
+                usernameError.style.display = 'none';
+                return true;
+            }
+        } else {
+            usernameError.style.display = 'none';
+            return false;
+        }
+    }
+    
+    // Función para validar el campo PIN
+    function validatePinField() {
+        let enteredPIN = '';
+        pinInputs.forEach(input => {
+            enteredPIN += input.value;
+        });
+        
+        if (enteredPIN.length > 0) {
+            const validation = validate({ pin: enteredPIN }, { pin: constraints.pin });
+            
+            if (validation && validation.pin) {
+                pinError.textContent = "PIN " + validation.pin[0];
+                pinError.style.display = 'block';
+                return false;
+            } else {
+                pinError.style.display = 'none';
+                return true;
+            }
+        } else {
+            pinError.style.display = 'none';
+            return false;
+        }
     }
     
     // Crear partículas de fondo
     createParticles();
     
+    // Inicializar datos del usuario
+    initializeUserData();
+    
+    // Validar campo de usuario en tiempo real
+    usernameInput.addEventListener('input', function() {
+        validateUsernameField();
+        checkFormComplete();
+    });
+    
+    usernameInput.addEventListener('blur', function() {
+        validateUsernameField();
+    });
+    
     // Manejar el auto-tabbing entre inputs de PIN
     pinInputs.forEach((input, index) => {
         input.addEventListener('input', function() {
-            // Validar que solo se ingresen números
             if (this.value && !/^\d$/.test(this.value)) {
                 this.value = '';
                 this.classList.add('invalid');
@@ -63,9 +156,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 pinInputs[index + 1].focus();
             }
             
-            // Verificar si todos los campos están llenos
-            checkPINComplete();
             validatePinField();
+            checkFormComplete();
         });
         
         input.addEventListener('keydown', function(e) {
@@ -73,7 +165,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 pinInputs[index - 1].focus();
             }
             
-            // Permitir navegación con flechas
             if (e.key === 'ArrowLeft' && index > 0) {
                 pinInputs[index - 1].focus();
             }
@@ -86,20 +177,17 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const pasteData = (e.clipboardData || window.clipboardData).getData('text');
             
-            // Validar el PIN pegado CON VALIDATE.JS
-            const validation = validatePIN(pasteData);
+            const validation = validate({ pin: pasteData }, { pin: constraints.pin });
             
-            if (validation.length === 0) {
-                // El PIN es válido
+            if (!validation || !validation.pin) {
                 for (let i = 0; i < 4; i++) {
                     pinInputs[i].value = pasteData[i] || '';
                 }
                 pinInputs[3].focus();
-                checkPINComplete();
                 validatePinField();
+                checkFormComplete();
             } else {
-                // Mostrar error de validación
-                showNotification(validation[0]);
+                showNotification("PIN " + validation.pin[0]);
             }
         });
         
@@ -129,44 +217,23 @@ document.addEventListener('DOMContentLoaded', function() {
         togglePinBtn.setAttribute('aria-label', isPinVisible ? 'Ocultar PIN' : 'Mostrar PIN');
     });
     
-    // Función para validar el campo PIN CON VALIDATE.JS
-    function validatePinField() {
+    // Función para verificar si el formulario está completo y válido
+    function checkFormComplete() {
+        const username = usernameInput.value.trim();
+        let pinComplete = true;
         let enteredPIN = '';
+        
         pinInputs.forEach(input => {
+            if (input.value === '') {
+                pinComplete = false;
+            }
             enteredPIN += input.value;
         });
         
-        // Solo validar si hay al menos un dígito
-        if (enteredPIN.length > 0) {
-            const validation = validatePIN(enteredPIN);
-            
-            if (validation.length > 0) {
-                // Mostrar error (remover "PIN " del mensaje para evitar duplicado)
-                const errorMessage = validation[0].replace('PIN ', '');
-                pinError.textContent = "" + errorMessage;
-                pinError.style.display = 'block';
-                return false;
-            } else {
-                // Ocultar error
-                pinError.style.display = 'none';
-                return true;
-            }
-        } else {
-            pinError.style.display = 'none';
-            return false;
-        }
-    }
-    
-    // Función para verificar si todos los campos de PIN están llenos
-    function checkPINComplete() {
-        let allFilled = true;
-        pinInputs.forEach(input => {
-            if (input.value === '') {
-                allFilled = false;
-            }
-        });
+        const isUsernameValid = validateUsernameField();
+        const isPinValid = validatePinField();
         
-        if (allFilled) {
+        if (username && pinComplete && isUsernameValid && isPinValid) {
             loginBtn.style.opacity = '1';
             loginBtn.disabled = false;
         } else {
@@ -175,23 +242,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Manejar el intento de login CON VALIDATE.JS
+    // Manejar el intento de login
     loginBtn.addEventListener('click', function() {
+        const username = usernameInput.value.trim();
         let enteredPIN = '';
         pinInputs.forEach(input => {
             enteredPIN += input.value;
         });
         
-        // Validar el PIN CON VALIDATE.JS
-        const validation = validatePIN(enteredPIN);
+        // Validar credenciales CON VALIDATE.JS
+        const validation = validateCredentials(username, enteredPIN);
         
         if (validation.length > 0) {
             showNotification(validation[0]);
             return;
         }
         
-        // Verificar si el PIN es el correcto
-        if (enteredPIN === '1996') {
+        // Verificar si las credenciales son correctas
+        if (username.toLowerCase() === validUser.name.toLowerCase() && enteredPIN === validUser.pin) {
             // Mostrar animación de carga
             loading.style.display = 'block';
             loginBtn.disabled = true;
@@ -200,18 +268,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 loading.style.display = 'none';
                 loginBtn.disabled = false;
                 
-                showNotification('¡Acceso concedido! Redirigiendo...', 'success');
-                
-                setTimeout(function() {
-                    window.location.href = "Pantalla de acciones.html";
-                }, 2000);
-            }, 2000);
+                // USAR SWEETALERT
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Acceso concedido!',
+                    text: `Bienvenido ${validUser.name}`,
+                    timer: 2000,
+                    showConfirmButton: false,
+                    willClose: () => {
+                        window.location.href = "Pantalla de acciones.html";
+                    }
+                });
+            }, 1500);
         } else {
-            showNotification('PIN incorrecto. Intenta de nuevo.');
+            // USAR SWEETALERT PARA ERROR
+            Swal.fire({
+                icon: 'error',
+                title: 'Credenciales incorrectas',
+                text: 'El nombre de usuario o PIN no son válidos.',
+                confirmButtonText: 'Entendido'
+            });
         }
     });
     
-    // Función para mostrar notificaciones
+    // Función para mostrar notificaciones (fallback)
     function showNotification(message, type = 'error') {
         const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
         notification.innerHTML = `<i class="fas ${icon}" aria-hidden="true"></i> <span>${message}</span>`;
@@ -231,7 +311,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Función para crear partículas de fondo
     function createParticles() {
-        // Reducir número de partículas para mejor rendimiento
         const colors = ['#FFCC00', '#3B5BB7', '#FFFFFF', '#FF0000'];
         const count = 20;
         
@@ -239,19 +318,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const particle = document.createElement('div');
             particle.classList.add('particle');
             
-            // Tamaño aleatorio
             const size = Math.random() * 12 + 3;
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             
-            // Color aleatorio
             particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
             
-            // Posición inicial aleatoria
             particle.style.left = `${Math.random() * 100}%`;
             particle.style.top = `${Math.random() * 100}%`;
             
-            // Duración y delay aleatorios
             const duration = Math.random() * 15 + 8;
             const delay = Math.random() * 3;
             particle.style.animationDuration = `${duration}s`;
@@ -261,20 +336,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Enfocar el primer campo del PIN al cargar la página
-    pinInputs[0].focus();
+    // Enfocar el campo de usuario al cargar la página
+    usernameInput.focus();
     
     // Mejorar accesibilidad del teclado
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            // Limpiar todos los campos al presionar Escape
+            usernameInput.value = '';
             pinInputs.forEach(input => input.value = '');
-            pinInputs[0].focus();
-            checkPINComplete();
-            validatePinField();
+            usernameInput.focus();
+            checkFormComplete();
         }
         
-        // Enviar formulario con Enter cuando todos los campos estén llenos
         if (e.key === 'Enter' && !loginBtn.disabled) {
             loginBtn.click();
         }
